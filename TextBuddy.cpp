@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "TextBuddyTool.cpp"
+#include "Library.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -17,6 +17,7 @@ using namespace std;
 vector<string> task_list;
 array<string, 5> list_of_commands = { "add", "display", "delete", "clear", "exit" };
 array<string, 2> list_of_subcommands = { "on", "by" };
+string default_db_name = "mytextfile.txt";
 
 bool exec_command(string file_name, vector<string> command_vector) {
 	string command = command_vector[0];
@@ -26,7 +27,7 @@ bool exec_command(string file_name, vector<string> command_vector) {
 	} else {
 		argument = "NULL";
 	}
-	TextBuddyTool::tolowercase(command);
+	Library::tolowercase(command);
 
 	int index = -1;
 	for (int i = 0; i < list_of_commands.size(); i++) {
@@ -98,19 +99,30 @@ bool exec_command(string file_name, vector<string> command_vector) {
 	}
 	}
 
-	TextBuddyTool::write_file(file_name, task_list);
+	Library::write_file(file_name, task_list);
 	return true;
+}
+
+
+string read_file_name(int argc, char* argv[]) {
+	string file_name;
+
+	if (argc > 1) {
+		file_name = argv[1];
+	}
+	else {
+		file_name = default_db_name;
+	}
+
+	return file_name;
 }
 
 int _tmain(int argc, char* argv[])
 {
-	//Task a("Birthday","March 17th");
+	string file_name = read_file_name(argc, argv);
+	task_list = Library::read_file(file_name);
 
-	//cout << a.get_task_name() << "\n";
-	//cout << a.get_task_dday() << "\n";
-
-	string file_name = argv[1];
-	task_list = TextBuddyTool::read_file(file_name);
+	cout << "\nWelcome to TextBuddy. " << file_name << " is ready for use\n";
 
 	string command_line;
 	vector<string> command_vector;
@@ -118,7 +130,7 @@ int _tmain(int argc, char* argv[])
 	while (true) {
 		cout << "\nCommand: ";
 		getline(cin, command_line);
-		TextBuddyTool::read_command(command_vector, command_line);
+		Library::read_command(command_vector, command_line);
 		if (!exec_command(file_name, command_vector)) {
 			break;
 		}

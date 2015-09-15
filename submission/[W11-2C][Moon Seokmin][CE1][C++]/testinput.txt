@@ -1,0 +1,16 @@
+clear
+add one
+add two
+add three
+add four
+add five
+display
+delete 3
+delete 3
+delete 3
+display
+delete 3
+display
+clear
+display
+exit
