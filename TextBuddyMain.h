@@ -11,7 +11,6 @@
 
 using namespace std;
 
-vector<string> taskList;
 array<string, 5> LIST_OF_COMMANDS = { "add", "display", "delete", "clear", "exit" };
 array<string, 2> LIST_OF_SUB_COMMANDS = { "on", "by" };
 string DEFAULT_DB_NAME = "mytextfile.txt";
@@ -28,11 +27,12 @@ private:
 	string readFileName(int argc, char* argv[]);
 
 	// returns false if the command is 'exit' in order to indicate the termination
-	bool execCommand(string file_name, vector<string> commandVector);
-
-	// returns the indicative integer of the command
-	// *This function is made because c++ switch only accepts integer
-	int getCommandIndex(string command);
+	bool execCommand(string fileName, vector<string> &taskList, vector<string> commandVector);
+	
+	vector<string> addTask(string fileName, vector<string> taskList, string command, string argument);
+	vector<string> deleteTask(string fileName, vector<string> taskList, string command, string argument);
+	vector<string> clearList(string fileName, vector<string> taskList);
+	void displayList(vector<string> taskList);
 
 	// print the input string with line breaker
 	// can be used for a specific printing behaviour later
