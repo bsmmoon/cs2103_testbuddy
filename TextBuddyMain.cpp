@@ -25,8 +25,7 @@ string readFileName(int argc, char* argv[]) {
 			cout << argv[i] << "\n";
 		}
 		fileName = argv[1];
-	}
-	else {
+	} else {
 		fileName = DEFAULT_DB_NAME;
 	}
 
@@ -61,8 +60,7 @@ void deleteTask(string command, string argument, string fileName) {
 	int target;
 	try {
 		target = stoi(argument) - 1;
-	}
-	catch (invalid_argument e) {
+	} catch (invalid_argument e) {
 		printLine("Invalid argument \"" + argument + "\"");
 		return;
 	}
@@ -73,14 +71,13 @@ void deleteTask(string command, string argument, string fileName) {
 			taskList[i] = taskList[i + 1];
 		}
 		taskList.erase(taskList.begin() + taskList.size() - 1);
-	}
-	else {
+	} else {
 		printLine("No task with index " + argument);
 	}
 }
 
 void clearList(string fileName) {
-	taskList = vector<string>();
+	taskList.erase(taskList.begin(), taskList.begin() + taskList.size());
 	printLine("All content deleted from " + fileName);
 }
 
@@ -89,29 +86,23 @@ bool execCommand(string fileName, vector<string> commandVector) {
 	string argument;
 	if (commandVector.size() > 1) {
 		argument = commandVector[1];
-	}
-	else {
+	} else {
 		argument = "NULL";
 	}
 	TextBuddyLibrary::tolowercase(command);
 
 	if (command.compare("add") == 0) {
 		addTask(command, argument, fileName);
-	}
-	else if (command.compare("display") == 0) {
+	} else if (command.compare("display") == 0) {
 		displayList();
-	}
-	else if (command.compare("delete") == 0) {
+	} else if (command.compare("delete") == 0) {
 		deleteTask(command, argument, fileName);
-	}
-	else if (command.compare("clear") == 0) {
+	} else if (command.compare("clear") == 0) {
 		clearList(fileName);
-	}
-	else if (command.compare("exit") == 0) {
+	} else if (command.compare("exit") == 0) {
 		printLine("Bye!");
 		return false;
-	}
-	else {
+	} else {
 		printLine("Command \"" + command + "\" not found");
 	}
 
@@ -119,8 +110,7 @@ bool execCommand(string fileName, vector<string> commandVector) {
 	return true;
 }
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
 	string fileName = readFileName(argc, argv);
 	taskList = TextBuddyLibrary::readFile(fileName);
 
