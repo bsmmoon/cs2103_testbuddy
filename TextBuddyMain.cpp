@@ -37,6 +37,53 @@ void printWelcomeMessage(string fileName) {
 	printLine("\nWelcome to TextBuddy. " + fileName + " is ready for use");
 }
 
+void addTask(string command, string argument, string fileName) {
+	if (argument.compare("NULL") == 0) {
+		printLine(command + " needs argument");
+		return;
+	}
+	printLine("added to " + fileName + ": \"" + argument + "\"");
+	taskList.push_back(argument);
+}
+
+void displayList() {
+	printLine("Task List: ");
+	for (int i = 0; i < taskList.size(); i++) {
+		printLine(to_string(i + 1) + ": " + taskList[i]);
+	}
+}
+
+void deleteTask(string command, string argument, string fileName) {
+	if (argument.compare("NULL") == 0) {
+		printLine(command + " needs argument");
+		return;
+	}
+	int target;
+	try {
+		target = stoi(argument) - 1;
+	}
+	catch (invalid_argument e) {
+		printLine("Invalid argument \"" + argument + "\"");
+		return;
+	}
+
+	if (target < taskList.size()) {
+		printLine("Deleted from " + fileName + ": \"" + taskList[target] + "\"");
+		for (int i = target; i < taskList.size() - 1; i++) {
+			taskList[i] = taskList[i + 1];
+		}
+		taskList.erase(taskList.begin() + taskList.size() - 1);
+	}
+	else {
+		printLine("No task with index " + argument);
+	}
+}
+
+void clearList(string fileName) {
+	taskList = vector<string>();
+	printLine("All content deleted from " + fileName);
+}
+
 bool execCommand(string fileName, vector<string> commandVector) {
 	string command = commandVector[0];
 	string argument;
@@ -48,69 +95,24 @@ bool execCommand(string fileName, vector<string> commandVector) {
 	}
 	TextBuddyLibrary::tolowercase(command);
 
-	int index = getCommandIndex(command);
-
-	switch (index) {
-	case 0:   // add
-	{
-		if (argument.compare("NULL") == 0) {
-			printLine(command + " needs argument");
-			break;
-		}
-		printLine("added to " + fileName + ": \"" + argument + "\"");
-		taskList.push_back(argument);
-		break;
+	if (command.compare("add") == 0) {
+		addTask(command, argument, fileName);
 	}
-	case 1:   // display
-	{
-		printLine("Task List: ");
-		for (int i = 0; i < taskList.size(); i++) {
-			printLine(to_string(i + 1) + ": " + taskList[i]);
-		}
-		break;
+	else if (command.compare("display") == 0) {
+		displayList();
 	}
-	case 2:   // delete
-	{
-		if (argument.compare("NULL") == 0) {
-			printLine(command + " needs argument");
-			break;
-		}
-		int target;
-		try {
-			target = stoi(argument) - 1;
-		}
-		catch (invalid_argument e) {
-			printLine("Invalid argument \"" + argument + "\"");
-			break;
-		}
-
-		if (target < taskList.size()) {
-			printLine("Deleted from " + fileName + ": \"" + taskList[target] + "\"");
-			for (int i = target; i < taskList.size() - 1; i++) {
-				taskList[i] = taskList[i + 1];
-			}
-			taskList.erase(taskList.begin() + taskList.size() - 1);
-		}
-		else {
-			printLine("No task with index " + argument);
-		}
-		break;
+	else if (command.compare("delete") == 0) {
+		deleteTask(command, argument, fileName);
 	}
-	case 3:   // clear
-	{
-		taskList = vector<string>();
-		printLine("All content deleted from " + fileName);
-		break;
+	else if (command.compare("clear") == 0) {
+		clearList(fileName);
 	}
-	case 4:   // exit
-	{
+	else if (command.compare("exit") == 0) {
 		printLine("Bye!");
 		return false;
 	}
-	default:
-	{
+	else {
 		printLine("Command \"" + command + "\" not found");
-	}
 	}
 
 	TextBuddyLibrary::writeFile(fileName, taskList);
