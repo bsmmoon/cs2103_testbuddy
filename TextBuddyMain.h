@@ -25,12 +25,9 @@ private:
 	// if the file name is provided, returns it.
 	// otherwise, returns the default name
 	string readFileName(int argc, char* argv[]);
-
-	// returns false if the command is 'exit' in order to indicate the termination
-	bool execCommand(string fileName, vector<string> &taskList, vector<string> commandVector);
 	
-	vector<string> addTask(string fileName, vector<string> taskList, string command, string argument);
-	vector<string> deleteTask(string fileName, vector<string> taskList, string command, string argument);
+	vector<string> addTask(string fileName, vector<string> taskList, string argument);
+	vector<string> deleteTask(string fileName, vector<string> taskList, string argument);
 	vector<string> clearList(string fileName, vector<string> taskList);
 	void displayList(vector<string> taskList);
 
@@ -38,7 +35,8 @@ private:
 	// can be used for a specific printing behaviour later
 	void printLine(string str);
 public:
-	int main(int argc, char* argv[]);
+	// returns false if the command is 'exit' in order to indicate the termination
+	bool execCommand(string fileName, vector<string> &taskList, vector<string> commandVector);
 	
 	TextBuddyMain();
 	~TextBuddyMain();

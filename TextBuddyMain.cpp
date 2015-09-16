@@ -36,9 +36,9 @@ void printWelcomeMessage(string fileName) {
 	printLine("\nWelcome to TextBuddy. " + fileName + " is ready for use");
 }
 
-vector<string> addTask(string fileName, vector<string> taskList, string command, string argument) {
+vector<string> addTask(string fileName, vector<string> taskList, string argument) {
 	if (argument.compare("NULL") == 0) {
-		printLine(command + " needs argument");
+		printLine("'add' command requires argument");
 		return taskList;
 	}
 	printLine("added to " + fileName + ": \"" + argument + "\"");
@@ -54,9 +54,9 @@ void displayList(vector<string> taskList) {
 	}
 }
 
-vector<string> deleteTask(string fileName, vector<string> taskList, string command, string argument) {
+vector<string> deleteTask(string fileName, vector<string> taskList, string argument) {
 	if (argument.compare("NULL") == 0) {
-		printLine(command + " needs argument");
+		printLine("'delete' command requires argument");
 		return taskList;
 	}
 	int target;
@@ -96,11 +96,11 @@ bool execCommand(string fileName, vector<string> &taskList, vector<string> comma
 	TextBuddyLibrary::tolowercase(command);
 
 	if (command.compare("add") == 0) {
-		taskList = addTask(fileName, taskList, command, argument);
+		taskList = addTask(fileName, taskList, argument);
 	} else if (command.compare("display") == 0) {
 		displayList(taskList);
 	} else if (command.compare("delete") == 0) {
-		taskList = deleteTask(fileName, taskList, command, argument);
+		taskList = deleteTask(fileName, taskList, argument);
 	} else if (command.compare("clear") == 0) {
 		taskList = clearList(fileName, taskList);
 	} else if (command.compare("exit") == 0) {
