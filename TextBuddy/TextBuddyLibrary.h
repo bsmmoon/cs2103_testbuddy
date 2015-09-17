@@ -40,4 +40,6 @@ public:
 	// if the file name is provided, returns it.
 	// otherwise, returns the default name
 	static string readFileName(int argc, char* argv[]);
+
+	static void printList(vector<string> list);
 };

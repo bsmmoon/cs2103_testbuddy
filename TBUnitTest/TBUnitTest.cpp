@@ -88,6 +88,8 @@ public:
 
 	TEST_METHOD(searchListTest) {
 		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "nice" }, { "nice", "nicer", "NULL", "nicest", "NULL" } });
+		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "n" }, { "nice", "nicer", "nasa", "nicest", "nike" } });
+		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "" }, { "nice", "nicer", "nasa", "nicest", "nike" } });
 	}
 	};
 }

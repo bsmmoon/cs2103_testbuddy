@@ -26,7 +26,7 @@ private:
 	void printWelcomeMessage(string fileName);
 	
 	vector<string> addTask(string fileName, vector<string> &taskList, string argument);
-	void displayList(vector<string> &taskList);
+	vector<string> displayList(vector<string> &taskList);
 	vector<string> deleteTask(string fileName, vector<string> &taskList, string argument);
 	vector<string> clearList(string fileName, vector<string> &taskList);
 	vector<string> TextBuddyMain::searchList(string fileName, vector<string> &taskList, string argument);
@@ -37,8 +37,6 @@ public:
 
 	// returns false if the command is 'exit' in order to indicate the termination
 	vector<string> execCommand(string fileName, vector<string> &taskList, vector<string> commandVector);
-
-	string test();
 
 	TextBuddyMain(string fileName);
 	~TextBuddyMain();
