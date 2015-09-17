@@ -60,7 +60,7 @@ vector<string> TextBuddyMain::clearList(string fileName, vector<string> &taskLis
 vector<string> TextBuddyMain::sortList(string fileName, vector<string> &taskList) {
 	sort(taskList.begin(), taskList.end());
 	printLine("List sorted alphabetically.");
-
+	
 	return taskList;
 }
 
@@ -96,7 +96,12 @@ void TextBuddyMain::exitBuddy() {
 vector<string> TextBuddyMain::execCommand(string fileName, vector<string> &taskList, vector<string> commandVector) {
 	string command = commandVector[0];
 	string argument;
-	argument = commandVector[1];
+	if (commandVector.size() > 1) {
+		argument = commandVector.at(1);
+	} else {
+		argument = "NULL";
+	}
+
 	TextBuddyLibrary::tolowercase(command);
 
 	vector<string> outputList = taskList;
@@ -124,6 +129,8 @@ vector<string> TextBuddyMain::execCommand(string fileName, vector<string> &taskL
 		}
 	} catch (invalid_argument message) {
 		throw invalid_argument(message);
+	} catch (exception e) {
+		throw invalid_argument("Unhandled Exception");
 	}
 
 	TextBuddyLibrary::printList(outputList);

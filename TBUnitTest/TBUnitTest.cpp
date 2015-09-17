@@ -78,25 +78,31 @@ public:
 	}
 
 	TEST_METHOD(addTaskTest) {
-		execUnitTest({ {}, { "add" }, { "NULL" }, { "'add' command requires argument" } });
+		execUnitTest({ {}, { "add" }, {}, { "'add' command requires argument" } });
 		execUnitTest({ {}, { "add" }, { "5", "4", "3", "2", "1" }, { "5", "4", "3", "2", "1" } });
 		execUnitTest({ { "5", "4", "3", "2", "1" }, { "add" }, { "10", "9", "8", "7", "6" }, { "5", "4", "3", "2", "1", "10", "9", "8", "7", "6" } });
 	}
 
 	TEST_METHOD(deleteTaskTest) {
-		execUnitTest({ { "1" }, { "delete" }, { "NULL" }, { "'delete' command requires argument" } });
+		execUnitTest({ { "1" }, { "delete" }, {}, { "'delete' command requires argument" } });
 		execUnitTest({ { "1" }, { "delete" }, { "17" }, { "No task with index 17" } });
 		execUnitTest({ { "5", "4", "3", "2", "1" }, { "delete" }, { "3", "3" }, { "5", "4", "1" } });
 	}
 
 	TEST_METHOD(clearTaskTest) {
-		execUnitTest({ { "5", "4", "3", "2", "1" }, { "clear" }, { "5", "4", "3", "2", "1" }, {} });
+		execUnitTest({ { "5", "4", "3", "2", "1" }, { "clear" }, {}, {} });
 	}
 
 	TEST_METHOD(searchListTest) {
-		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "NULL" }, { "'search' command requires argument" } });
+		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, {}, { "'search' command requires argument" } });
 		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "nice" }, { "nice", "nicer", "NULL", "nicest", "NULL" } });
 		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "n" }, { "nice", "nicer", "nasa", "nicest", "nike" } });
+		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "z" }, {} });
+	}
+
+	TEST_METHOD(sortListTest) {
+		execUnitTest({ { "5", "4", "3", "2", "1" }, { "sort" }, {}, { "1", "2", "3", "4", "5" } });
+		execUnitTest({ { "5", "4", "3", "2", "1", "9", "8", "7", "6" }, { "sort" }, {}, { "1", "2", "3", "4", "5", "6", "7", "8", "9" } });
 	}
 	};
 }
