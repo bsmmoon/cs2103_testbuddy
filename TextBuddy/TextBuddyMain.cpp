@@ -14,7 +14,7 @@ void TextBuddyMain::printWelcomeMessage(string fileName) {
 	printLine("\nWelcome to TextBuddy. " + fileName + " is ready for use");
 }
 
-vector<string> TextBuddyMain::addTask(string fileName, vector<string> taskList, string argument) {
+vector<string> TextBuddyMain::addTask(string fileName, vector<string> &taskList, string argument) {
 	if (argument.compare("NULL") == 0) {
 		printLine("'add' command requires argument");
 		return taskList;
@@ -25,7 +25,7 @@ vector<string> TextBuddyMain::addTask(string fileName, vector<string> taskList, 
 	return taskList;
 }
 
-void TextBuddyMain::displayList(vector<string> taskList) {
+void TextBuddyMain::displayList(vector<string> &taskList) {
 	printLine("Task List: ");
 	for (int i = 0; i < taskList.size(); i++) {
 		if (taskList.at(i) != "NULL") {
@@ -34,7 +34,7 @@ void TextBuddyMain::displayList(vector<string> taskList) {
 	}
 }
 
-vector<string> TextBuddyMain::deleteTask(string fileName, vector<string> taskList, string argument) {
+vector<string> TextBuddyMain::deleteTask(string fileName, vector<string> &taskList, string argument) {
 	if (argument.compare("NULL") == 0) {
 		printLine("'delete' command requires argument");
 		return taskList;
@@ -59,20 +59,20 @@ vector<string> TextBuddyMain::deleteTask(string fileName, vector<string> taskLis
 	return taskList;
 }
 
-vector<string> TextBuddyMain::clearList(string fileName, vector<string> taskList) {
+vector<string> TextBuddyMain::clearList(string fileName, vector<string> &taskList) {
 	taskList.clear();
 	printLine("All content deleted from " + fileName);
 	return taskList;
 }
 
-vector<string> TextBuddyMain::sortList(string fileName, vector<string> taskList) {
+vector<string> TextBuddyMain::sortList(string fileName, vector<string> &taskList) {
 	sort(taskList.begin(), taskList.end());
 	printLine("List sorted alphabetically.");
 	displayList(taskList);
 	return taskList;
 }
 
-vector<string> TextBuddyMain::searchList(string fileName, vector<string> taskList, string argument) {
+vector<string> TextBuddyMain::searchList(string fileName, vector<string> &taskList, string argument) {
 	vector<string> foundList;
 	string element;
 	for (int i = 0; i < taskList.size(); i++) {

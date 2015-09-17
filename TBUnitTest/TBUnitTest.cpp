@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <fstream>
 #include "TextBuddyMain.h"
 #include "TextBuddyLibrary.h"
 
@@ -12,60 +13,84 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 
 namespace TBUnitTest
-{		
-	TEST_CLASS(UnitTest)
-	{
-	private:
-		string testFile = "test.txt";
-		TextBuddyMain tm;
+{
+	TEST_CLASS(UnitTest) {
+private:
+	string testFile = "test.txt";
+
+public:
+	void execUnitTest(vector<vector<string>> input) {
+		TextBuddyMain tm(testFile);
+		vector<string> initial = input.at(0);
+		string command = input.at(1).at(0);
+		vector<string> arguments = input.at(2);
+		vector<string> expected = input.at(3);
+
 		vector<string> actual;
-		vector<string> expected;
-		string command;
-
-	public:
-		TEST_METHOD_INITIALIZE(START) {
+		for (int i = 0; i < arguments.size(); i++) {
+			actual = tm.execCommand(testFile, initial, { command, arguments.at(i) });
 		}
 
-		TEST_METHOD_CLEANUP(CLEAN) {
-		}
-
-		TEST_METHOD(addTaskTest) {
-			tm = TextBuddyMain(testFile);
-			actual = vector<string>();
-			expected = vector<string>();
-
-			command = "add";
-
-			vector<string> input = { "5", "4", "3", "2", "1" };
-			for (int i = 0; i < input.size(); i++) {
-				tm.execCommand(testFile, actual, { command, input.at(i) });
+		if (actual == expected) {
+			Assert::IsTrue(true);
+		} else {
+			ofstream file("UnitTestLog.txt", std::ios_base::app);
+			
+			file << "----------\n";
+			for (int i = 0; i < initial.size(); i++) {
+				file << initial.at(i) << " ";
 			}
-			expected = { "5", "4", "3", "2", "1" };
-			Assert::IsTrue(actual == expected);
-		}
+			file << "\n";
 
-		TEST_METHOD(deleteTaskTest) {
-			tm = TextBuddyMain(testFile);
-			actual = vector<string>();
-			expected = vector<string>();
+			file << command;
+			file << "\n";
 
-			command = "delete";
-
-			vector<string> initSet = { "5", "4", "3", "2", "1" };
-			for (int i = 0; i < initSet.size(); i++) {
-				tm.execCommand(testFile, actual, { "add", initSet.at(i) });
+			for (int i = 0; i < arguments.size(); i++) {
+				file << arguments.at(i) << " ";
 			}
+			file << "\n";
 
-			vector<string> input = { "3", "3" };
-			for (int i = 0; i < input.size(); i++) {
-				tm.execCommand(testFile, actual, { command, input.at(i) });
+			for (int i = 0; i < actual.size(); i++) {
+				file << actual.at(i) << " ";
 			}
-			expected = { "5", "4", "1" };
+			file << "\n";
 
-			expected = {};
+			for (int i = 0; i < expected.size(); i++) {
+				file << expected.at(i) << " ";
+			}
+			file << "\n";
+
+			file << "----------\n";
+			file.close();
+
+			Assert::IsTrue(false);
 		}
+	}
+
+	TEST_METHOD_INITIALIZE(START) {
+	}
+
+	TEST_METHOD_CLEANUP(CLEAN) {
+	}
+
+	TEST_METHOD(addTaskTest) {
+		execUnitTest({ {}, { "add" }, { "5", "4", "3", "2", "1" }, { "5", "4", "3", "2", "1" } });
+		execUnitTest({ { "5", "4", "3", "2", "1" }, { "add" }, { "10", "9", "8", "7", "6" }, { "5", "4", "3", "2", "1", "10", "9", "8", "7", "6" } });
+	}
+
+	TEST_METHOD(deleteTaskTest) {
+		execUnitTest({ { "5", "4", "3", "2", "1" }, { "delete" }, { "3", "3" }, { "5", "4", "1" } });
+	}
+
+	TEST_METHOD(clearTaskTest) {
+		execUnitTest({ { "5", "4", "3", "2", "1" }, { "clear" }, { "5", "4", "3", "2", "1" }, {} });
+	}
+
+	TEST_METHOD(searchListTest) {
+		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "nice" }, { "nice", "nicer", "NULL", "nicest", "NULL" } });
+	}
 	};
 }
 
 // TEMPLATE:
-// tm.execCommand(testFile, actual, { command, input.at(i) });
+// tm.execCommand(testFile, actual, { command, argument.at(i) });
