@@ -10,25 +10,62 @@ using namespace std;
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+
 namespace TBUnitTest
 {		
 	TEST_CLASS(UnitTest)
 	{
-	public:
-		TEST_METHOD(addTaskTest)
-		{
-			string testFile = "test.txt";
-			TextBuddyMain tm(testFile);
-			vector<string> actual;
-			vector<string> expected;
+	private:
+		string testFile = "test.txt";
+		TextBuddyMain tm;
+		vector<string> actual;
+		vector<string> expected;
+		string command;
 
-			tm.execCommand(testFile, actual, { "add", "one" });
-			expected = { "one" };
-			if (actual == expected) {
-				Assert::IsTrue(true);
-			} else {
-				Assert::IsFalse(true);
+	public:
+		TEST_METHOD_INITIALIZE(START) {
+		}
+
+		TEST_METHOD_CLEANUP(CLEAN) {
+		}
+
+		TEST_METHOD(addTaskTest) {
+			tm = TextBuddyMain(testFile);
+			actual = vector<string>();
+			expected = vector<string>();
+
+			command = "add";
+
+			vector<string> input = { "5", "4", "3", "2", "1" };
+			for (int i = 0; i < input.size(); i++) {
+				tm.execCommand(testFile, actual, { command, input.at(i) });
 			}
+			expected = { "5", "4", "3", "2", "1" };
+			Assert::IsTrue(actual == expected);
+		}
+
+		TEST_METHOD(deleteTaskTest) {
+			tm = TextBuddyMain(testFile);
+			actual = vector<string>();
+			expected = vector<string>();
+
+			command = "delete";
+
+			vector<string> initSet = { "5", "4", "3", "2", "1" };
+			for (int i = 0; i < initSet.size(); i++) {
+				tm.execCommand(testFile, actual, { "add", initSet.at(i) });
+			}
+
+			vector<string> input = { "3", "3" };
+			for (int i = 0; i < input.size(); i++) {
+				tm.execCommand(testFile, actual, { command, input.at(i) });
+			}
+			expected = { "5", "4", "1" };
+
+			expected = {};
 		}
 	};
 }
+
+// TEMPLATE:
+// tm.execCommand(testFile, actual, { command, input.at(i) });
