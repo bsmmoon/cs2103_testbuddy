@@ -1,20 +1,11 @@
 #include "stdafx.h"
 #include "TextBuddyMain.h"
 
+TextBuddyMain::TextBuddyMain() {}
+TextBuddyMain::~TextBuddyMain() {}
 
 void printLine(string str) {
 	cout << str << "\n";
-}
-
-int getCommandIndex(string command) {
-	int index = -1;
-	for (int i = 0; i < LIST_OF_COMMANDS.size(); i++) {
-		if (LIST_OF_COMMANDS[i].compare(command) == 0) {
-			index = i;
-			break;
-		}
-	}
-	return index;
 }
 
 string readFileName(int argc, char* argv[]) {
@@ -85,6 +76,23 @@ vector<string> clearList(string fileName, vector<string> taskList) {
 	return taskList;
 }
 
+vector<string> sortList(string fileName, vector<string> taskList) {
+	sort(taskList.begin(), taskList.end());
+	return taskList;
+}
+
+void searchList(string fileName, vector<string> taskList, string argument) {
+	vector<string> foundList;
+	string element;
+	for (int i = 0; i < taskList.size(); i++) {
+		element = taskList.at(i);
+		if (element.find(argument) != -1) {
+			foundList.push_back(element);
+		}
+	}
+	displayList(foundList);
+}
+
 bool execCommand(string fileName, vector<string> &taskList, vector<string> commandVector) {
 	string command = commandVector[0];
 	string argument;
@@ -106,6 +114,10 @@ bool execCommand(string fileName, vector<string> &taskList, vector<string> comma
 	} else if (command.compare("exit") == 0) {
 		printLine("Bye!");
 		exit(0);
+	} else if (command.compare("sort") == 0) {
+		taskList = sortList(fileName, taskList);
+	} else if (command.compare("search") == 0) {
+		searchList(fileName, taskList, argument);
 	} else {
 		printLine("Command \"" + command + "\" not found");
 	}
