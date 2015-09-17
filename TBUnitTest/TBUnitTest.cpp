@@ -27,12 +27,16 @@ public:
 		vector<string> expected = input.at(3);
 
 		vector<string> actual;
-		for (int i = 0; i < arguments.size(); i++) {
-			try {
-				actual = tm.execCommand(testFile, initial, { command, arguments.at(i) });
-			} catch (invalid_argument message) {
-				actual = { message.what() };
+		try {
+			if (arguments.size() == 0) {
+				actual = tm.execCommand(testFile, initial, { command, "NULL" });
+			} else {
+				for (int i = 0; i < arguments.size(); i++) {
+					actual = tm.execCommand(testFile, initial, { command, arguments.at(i) });
+				}
 			}
+		} catch (invalid_argument message) {
+			actual = { message.what() };
 		}
 
 		if (actual == expected) {
@@ -97,7 +101,7 @@ public:
 		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, {}, { "'search' command requires argument" } });
 		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "nice" }, { "nice", "nicer", "NULL", "nicest", "NULL" } });
 		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "n" }, { "nice", "nicer", "nasa", "nicest", "nike" } });
-		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "z" }, {} });
+		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "z" }, { "NULL", "NULL", "NULL", "NULL", "NULL" } });
 	}
 
 	TEST_METHOD(sortListTest) {
