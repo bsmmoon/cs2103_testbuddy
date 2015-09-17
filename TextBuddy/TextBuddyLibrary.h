@@ -41,5 +41,5 @@ public:
 	// otherwise, returns the default name
 	static string readFileName(int argc, char* argv[]);
 
-	static void printList(vector<string> list);
+	static void TextBuddyLibrary::printList(vector<string> list);
 };

@@ -16,8 +16,7 @@ void TextBuddyMain::printWelcomeMessage(string fileName) {
 
 vector<string> TextBuddyMain::addTask(string fileName, vector<string> &taskList, string argument) {
 	if (argument.compare("NULL") == 0) {
-		printLine("'add' command requires argument");
-		return taskList;
+		throw invalid_argument("'add' command requires argument");
 	}
 	printLine("added to " + fileName + ": \"" + argument + "\"");
 	taskList.push_back(argument);
@@ -27,15 +26,13 @@ vector<string> TextBuddyMain::addTask(string fileName, vector<string> &taskList,
 
 vector<string> TextBuddyMain::deleteTask(string fileName, vector<string> &taskList, string argument) {
 	if (argument.compare("NULL") == 0) {
-		printLine("'delete' command requires argument");
-		return taskList;
+		throw invalid_argument("'delete' command requires argument");
 	}
 	int target;
 	try {
 		target = stoi(argument) - 1;
 	} catch (invalid_argument e) {
-		printLine("Invalid argument \"" + argument + "\"");
-		return taskList;
+		throw invalid_argument("Invalid argument \"" + argument + "\"");
 	}
 
 	if (target < taskList.size()) {
@@ -45,7 +42,7 @@ vector<string> TextBuddyMain::deleteTask(string fileName, vector<string> &taskLi
 		}
 		taskList.erase(taskList.begin() + taskList.size() - 1);
 	} else {
-		printLine("No task with index " + argument);
+		throw invalid_argument("No task with index " + argument);
 	}
 
 	return taskList;
@@ -85,6 +82,11 @@ vector<string> TextBuddyMain::searchList(string fileName, vector<string> &taskLi
 	return foundList;
 }
 
+void TextBuddyMain::exitBuddy() {
+	cout << "Bye!\n";
+	exit(0);
+}
+
 vector<string> TextBuddyMain::execCommand(string fileName, vector<string> &taskList, vector<string> commandVector) {
 	string command = commandVector[0];
 	string argument;
@@ -96,24 +98,30 @@ vector<string> TextBuddyMain::execCommand(string fileName, vector<string> &taskL
 	TextBuddyLibrary::tolowercase(command);
 
 	vector<string> outputList = taskList;
-	if (command.compare("add") == 0) {
-		outputList = addTask(fileName, taskList, argument);
-	} else if (command.compare("display") == 0) {
-		printLine("Task List: ");
-		outputList = taskList;
-	} else if (command.compare("delete") == 0) {
-		outputList = deleteTask(fileName, taskList, argument);
-	} else if (command.compare("clear") == 0) {
-		outputList = clearList(fileName, taskList);
-	} else if (command.compare("exit") == 0) {
-		outputList = { "Bye!" };
-		exit(0);
-	} else if (command.compare("sort") == 0) {
-		outputList = sortList(fileName, taskList);
-	} else if (command.compare("search") == 0) {
-		outputList = searchList(fileName, taskList, argument);
-	} else {
-		outputList = { "Command \"" + command + "\" not found" };
+	bool returnsMessage = false;
+
+	try {
+		if (command.compare("add") == 0) {
+			outputList = addTask(fileName, taskList, argument);
+		} else if (command.compare("display") == 0) {
+			printLine("Task List: ");
+			outputList = taskList;
+		} else if (command.compare("delete") == 0) {
+			outputList = deleteTask(fileName, taskList, argument);
+		} else if (command.compare("clear") == 0) {
+			outputList = clearList(fileName, taskList);
+		} else if (command.compare("exit") == 0) {
+			exitBuddy();
+		} else if (command.compare("sort") == 0) {
+			outputList = sortList(fileName, taskList);
+		} else if (command.compare("search") == 0) {
+			outputList = searchList(fileName, taskList, argument);
+		} else {
+			string message = "Command \"" + command + "\" not found";
+			throw invalid_argument(message);
+		}
+	} catch (invalid_argument message) {
+		throw invalid_argument(message);
 	}
 
 	TextBuddyLibrary::printList(outputList);
@@ -132,7 +140,11 @@ int TextBuddyMain::run(string fileName) {
 		cout << "\nCommand: ";
 		getline(cin, commandLine);
 		TextBuddyLibrary::readCommand(commandVector, commandLine);
-		execCommand(fileName, taskList, commandVector);
+		try {
+			execCommand(fileName, taskList, commandVector);
+		} catch (invalid_argument message) {
+			cout << message.what() << "\n";
+		}
 	}
 
 	return 0;

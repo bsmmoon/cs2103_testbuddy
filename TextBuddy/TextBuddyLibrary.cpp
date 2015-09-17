@@ -75,7 +75,8 @@ string TextBuddyLibrary::readFileName(int argc, char* argv[]) {
 void TextBuddyLibrary::printList(vector<string> list) {
 	for (int i = 0; i < list.size(); i++) {
 		if (list.at(i) != "NULL") {
-			cout << (i+1) << ": " << list.at(i) << "\n";
+			cout << (i + 1) << ": ";
+			cout << list.at(i) << "\n";
 		}
 	}
 	cout << "\n";

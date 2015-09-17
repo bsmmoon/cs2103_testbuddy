@@ -31,6 +31,7 @@ private:
 	vector<string> clearList(string fileName, vector<string> &taskList);
 	vector<string> TextBuddyMain::searchList(string fileName, vector<string> &taskList, string argument);
 	vector<string> TextBuddyMain::sortList(string fileName, vector<string> &taskList);
+	void TextBuddyMain::exitBuddy();
 
 public:
 	int run(string fileName);
