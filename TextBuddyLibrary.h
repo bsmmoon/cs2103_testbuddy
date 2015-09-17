@@ -32,4 +32,10 @@ public:
 	// returns ifstream of the file with the specified name
 	// if the file does not exist, create.
 	static ifstream makeSureFileExist(string fileName);
+
+
+	// returns file name
+	// if the file name is provided, returns it.
+	// otherwise, returns the default name
+	static string readFileName(int argc, char* argv[]);
 };

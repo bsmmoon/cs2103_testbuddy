@@ -56,3 +56,16 @@ vector<string> TextBuddyLibrary::readFile(string fileName) {
 void TextBuddyLibrary::tolowercase(string &str) {
 	transform(str.begin(), str.end(), str.begin(), ::tolower);
 }
+
+string TextBuddyLibrary::readFileName(int argc, char* argv[]) {
+	string fileName;
+
+	if (argc > 1) {
+		for (int i = 0; i < argc; i++) {
+			cout << argv[i] << "\n";
+		}
+		fileName = argv[1];
+	}
+
+	return fileName;
+}

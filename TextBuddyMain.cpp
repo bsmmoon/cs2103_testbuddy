@@ -1,33 +1,20 @@
 #include "stdafx.h"
 #include "TextBuddyMain.h"
 
-TextBuddyMain::TextBuddyMain() {}
+TextBuddyMain::TextBuddyMain(string fileName) {
+	printWelcomeMessage(fileName);
+}
 TextBuddyMain::~TextBuddyMain() {}
 
-void printLine(string str) {
+void TextBuddyMain::printLine(string str) {
 	cout << str << "\n";
 }
 
-string readFileName(int argc, char* argv[]) {
-	string fileName;
-
-	if (argc > 1) {
-		for (int i = 0; i < argc; i++) {
-			cout << argv[i] << "\n";
-		}
-		fileName = argv[1];
-	} else {
-		fileName = DEFAULT_DB_NAME;
-	}
-
-	return fileName;
-}
-
-void printWelcomeMessage(string fileName) {
+void TextBuddyMain::printWelcomeMessage(string fileName) {
 	printLine("\nWelcome to TextBuddy. " + fileName + " is ready for use");
 }
 
-vector<string> addTask(string fileName, vector<string> taskList, string argument) {
+vector<string> TextBuddyMain::addTask(string fileName, vector<string> taskList, string argument) {
 	if (argument.compare("NULL") == 0) {
 		printLine("'add' command requires argument");
 		return taskList;
@@ -38,14 +25,16 @@ vector<string> addTask(string fileName, vector<string> taskList, string argument
 	return taskList;
 }
 
-void displayList(vector<string> taskList) {
+void TextBuddyMain::displayList(vector<string> taskList) {
 	printLine("Task List: ");
 	for (int i = 0; i < taskList.size(); i++) {
-		printLine(to_string(i + 1) + ": " + taskList[i]);
+		if (taskList.at(i) != "NULL") {
+			printLine(to_string(i + 1) + ": " + taskList.at(i));
+		}
 	}
 }
 
-vector<string> deleteTask(string fileName, vector<string> taskList, string argument) {
+vector<string> TextBuddyMain::deleteTask(string fileName, vector<string> taskList, string argument) {
 	if (argument.compare("NULL") == 0) {
 		printLine("'delete' command requires argument");
 		return taskList;
@@ -70,18 +59,20 @@ vector<string> deleteTask(string fileName, vector<string> taskList, string argum
 	return taskList;
 }
 
-vector<string> clearList(string fileName, vector<string> taskList) {
+vector<string> TextBuddyMain::clearList(string fileName, vector<string> taskList) {
 	taskList.erase(taskList.begin(), taskList.begin() + taskList.size());
 	printLine("All content deleted from " + fileName);
 	return taskList;
 }
 
-vector<string> sortList(string fileName, vector<string> taskList) {
+vector<string> TextBuddyMain::sortList(string fileName, vector<string> taskList) {
 	sort(taskList.begin(), taskList.end());
+	printLine("List sorted alphabetically.");
+	displayList(taskList);
 	return taskList;
 }
 
-void searchList(string fileName, vector<string> taskList, string argument) {
+void TextBuddyMain::searchList(string fileName, vector<string> taskList, string argument) {
 	vector<string> foundList;
 	string element;
 	for (int i = 0; i < taskList.size(); i++) {
@@ -89,11 +80,14 @@ void searchList(string fileName, vector<string> taskList, string argument) {
 		if (element.find(argument) != -1) {
 			foundList.push_back(element);
 		}
+		else {
+			foundList.push_back("NULL");
+		}
 	}
 	displayList(foundList);
 }
 
-bool execCommand(string fileName, vector<string> &taskList, vector<string> commandVector) {
+bool TextBuddyMain::execCommand(string fileName, vector<string> &taskList, vector<string> commandVector) {
 	string command = commandVector[0];
 	string argument;
 	if (commandVector.size() > 1) {
@@ -126,11 +120,14 @@ bool execCommand(string fileName, vector<string> &taskList, vector<string> comma
 	return true;
 }
 
-int main(int argc, char* argv[]) {
-	string fileName = readFileName(argc, argv);
-	vector<string> taskList = TextBuddyLibrary::readFile(fileName);
+string test() {
+	return "TEST";
+}
 
-	printWelcomeMessage(fileName);
+int main(int argc, char* argv[]) {
+	string fileName = TextBuddyLibrary::readFileName(argc, argv);
+	TextBuddyMain buddy(fileName);
+	vector<string> taskList = TextBuddyLibrary::readFile(fileName);
 
 	string commandLine;
 	vector<string> commandVector;
@@ -139,7 +136,7 @@ int main(int argc, char* argv[]) {
 		cout << "\nCommand: ";
 		getline(cin, commandLine);
 		TextBuddyLibrary::readCommand(commandVector, commandLine);
-		if (!execCommand(fileName, taskList, commandVector)) {
+		if (!buddy.execCommand(fileName, taskList, commandVector)) {
 			break;
 		}
 	}
