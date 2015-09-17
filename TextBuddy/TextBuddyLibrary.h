@@ -18,27 +18,17 @@ public:
 	TextBuddyLibrary();
 	~TextBuddyLibrary();
 
-	// write the lines to file
 	static void writeFile(string fileName, vector<string> lines);
 
 	// store the actual command and the argument at commnadVector
-	// by extracting them from the given command line
 	static void readCommand(vector<string> &commandVector, string commandLine);
 
-	// read file
 	static vector<string> readFile(string fileName);
-
-	// convert string to lower case
 	static void tolowercase(string &str);
-
-	// returns ifstream of the file with the specified name
-	// if the file does not exist, create.
-	static ifstream makeSureFileExist(string fileName);
-
+	static void makeSureFileExist(string fileName);
 
 	// returns file name
-	// if the file name is provided, returns it.
-	// otherwise, returns the default name
+	// if no file given, returns the default name
 	static string readFileName(int argc, char* argv[]);
 
 	static void TextBuddyLibrary::printList(vector<string> list);

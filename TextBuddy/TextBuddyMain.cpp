@@ -80,27 +80,18 @@ vector<string> TextBuddyMain::searchList(string fileName, vector<string> &taskLi
 			foundList.push_back("NULL");
 		}
 	}
-	for (int i = 0; i < foundList.size(); i++) {
-		cout << foundList.at(i) << " ";
-	}
-	cout << "\n";
 
 	return foundList;
 }
 
 void TextBuddyMain::exitBuddy() {
-	cout << "Bye!\n";
+	printLine("Bye!\n");
 	exit(0);
 }
 
 vector<string> TextBuddyMain::execCommand(string fileName, vector<string> &taskList, vector<string> commandVector) {
 	string command = commandVector[0];
-	string argument;
-	if (commandVector.size() > 1) {
-		argument = commandVector.at(1);
-	} else {
-		argument = "NULL";
-	}
+	string argument = commandVector.at(1);
 
 	TextBuddyLibrary::tolowercase(command);
 
@@ -146,13 +137,13 @@ int TextBuddyMain::run(string fileName) {
 	vector<string> commandVector;
 
 	while (true) {
-		cout << "\nCommand: ";
+		printLine("\nCommand: ");
 		getline(cin, commandLine);
 		TextBuddyLibrary::readCommand(commandVector, commandLine);
 		try {
 			execCommand(fileName, taskList, commandVector);
 		} catch (invalid_argument message) {
-			cout << message.what() << "\n";
+			printLine(string(message.what()) + "\n");
 		}
 	}
 

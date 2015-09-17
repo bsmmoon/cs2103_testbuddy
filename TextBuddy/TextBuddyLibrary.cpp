@@ -17,7 +17,7 @@ void TextBuddyLibrary::readCommand(vector<string> &commandVector, string command
 	string command = commandLine.substr(0, pos);
 	out.push_back(command);
 
-	if (pos > 0) {
+	if (pos != -1) {
 		string argument = commandLine.substr(pos + 1, commandLine.length());
 		out.push_back(argument);
 	} else {
@@ -27,15 +27,14 @@ void TextBuddyLibrary::readCommand(vector<string> &commandVector, string command
 	commandVector = out;
 }
 
-ifstream TextBuddyLibrary::makeSureFileExist(string fileName) {
+void TextBuddyLibrary::makeSureFileExist(string fileName) {
 	ifstream file;
 	file.open(fileName);
 	if (!file.good()) {
 		ofstream temp(fileName);
 		temp.close();
-		file.open(fileName);
 	}
-	return file;
+	file.close();
 }
 
 vector<string> TextBuddyLibrary::readFile(string fileName) {
@@ -43,7 +42,8 @@ vector<string> TextBuddyLibrary::readFile(string fileName) {
 	string line;
 	
 	vector<string> lines;
-	ifstream file = makeSureFileExist(fileName);
+	makeSureFileExist(fileName);
+	ifstream file(fileName);
 	while (!file.eof()) {
 		getline(file, line);
 		if (line.length() > 0) {
