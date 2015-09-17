@@ -28,7 +28,11 @@ public:
 
 		vector<string> actual;
 		for (int i = 0; i < arguments.size(); i++) {
-			actual = tm.execCommand(testFile, initial, { command, arguments.at(i) });
+			try {
+				actual = tm.execCommand(testFile, initial, { command, arguments.at(i) });
+			} catch (invalid_argument message) {
+				actual = { message.what() };
+			}
 		}
 
 		if (actual == expected) {
@@ -74,11 +78,14 @@ public:
 	}
 
 	TEST_METHOD(addTaskTest) {
+		execUnitTest({ {}, { "add" }, { "NULL" }, { "'add' command requires argument" } });
 		execUnitTest({ {}, { "add" }, { "5", "4", "3", "2", "1" }, { "5", "4", "3", "2", "1" } });
 		execUnitTest({ { "5", "4", "3", "2", "1" }, { "add" }, { "10", "9", "8", "7", "6" }, { "5", "4", "3", "2", "1", "10", "9", "8", "7", "6" } });
 	}
 
 	TEST_METHOD(deleteTaskTest) {
+		execUnitTest({ { "1" }, { "delete" }, { "NULL" }, { "'delete' command requires argument" } });
+		execUnitTest({ { "1" }, { "delete" }, { "17" }, { "No task with index 17" } });
 		execUnitTest({ { "5", "4", "3", "2", "1" }, { "delete" }, { "3", "3" }, { "5", "4", "1" } });
 	}
 
@@ -87,9 +94,9 @@ public:
 	}
 
 	TEST_METHOD(searchListTest) {
+		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "NULL" }, { "'search' command requires argument" } });
 		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "nice" }, { "nice", "nicer", "NULL", "nicest", "NULL" } });
 		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "n" }, { "nice", "nicer", "nasa", "nicest", "nike" } });
-		execUnitTest({ { "nice", "nicer", "nasa", "nicest", "nike" }, { "search" }, { "" }, { "nice", "nicer", "nasa", "nicest", "nike" } });
 	}
 	};
 }

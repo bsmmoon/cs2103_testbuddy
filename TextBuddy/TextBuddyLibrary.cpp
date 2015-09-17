@@ -20,6 +20,8 @@ void TextBuddyLibrary::readCommand(vector<string> &commandVector, string command
 	if (pos > 0) {
 		string argument = commandLine.substr(pos + 1, commandLine.length());
 		out.push_back(argument);
+	} else {
+		out.push_back("NULL");
 	}
 
 	commandVector = out;

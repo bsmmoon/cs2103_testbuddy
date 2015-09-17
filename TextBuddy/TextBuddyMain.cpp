@@ -18,6 +18,7 @@ vector<string> TextBuddyMain::addTask(string fileName, vector<string> &taskList,
 	if (argument.compare("NULL") == 0) {
 		throw invalid_argument("'add' command requires argument");
 	}
+
 	printLine("added to " + fileName + ": \"" + argument + "\"");
 	taskList.push_back(argument);
 
@@ -28,6 +29,7 @@ vector<string> TextBuddyMain::deleteTask(string fileName, vector<string> &taskLi
 	if (argument.compare("NULL") == 0) {
 		throw invalid_argument("'delete' command requires argument");
 	}
+
 	int target;
 	try {
 		target = stoi(argument) - 1;
@@ -63,6 +65,10 @@ vector<string> TextBuddyMain::sortList(string fileName, vector<string> &taskList
 }
 
 vector<string> TextBuddyMain::searchList(string fileName, vector<string> &taskList, string argument) {
+	if (argument.compare("NULL") == 0) {
+		throw invalid_argument("'search' command requires argument");
+	}
+
 	vector<string> foundList;
 	string element;
 	for (int i = 0; i < taskList.size(); i++) {
@@ -90,11 +96,7 @@ void TextBuddyMain::exitBuddy() {
 vector<string> TextBuddyMain::execCommand(string fileName, vector<string> &taskList, vector<string> commandVector) {
 	string command = commandVector[0];
 	string argument;
-	if (commandVector.size() > 1) {
-		argument = commandVector[1];
-	} else {
-		argument = "NULL";
-	}
+	argument = commandVector[1];
 	TextBuddyLibrary::tolowercase(command);
 
 	vector<string> outputList = taskList;
