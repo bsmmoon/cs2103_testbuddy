@@ -124,7 +124,7 @@ string test() {
 	return "TEST";
 }
 
-int TextBuddyMain::main(string fileName) {
+int TextBuddyMain::run(string fileName) {
 	vector<string> taskList = TextBuddyLibrary::readFile(fileName);
 
 	string commandLine;

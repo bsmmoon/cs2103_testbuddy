@@ -33,7 +33,7 @@ private:
 	vector<string> TextBuddyMain::sortList(string fileName, vector<string> taskList);
 
 public:
-	int main(string fileName);
+	int run(string fileName);
 
 	// returns false if the command is 'exit' in order to indicate the termination
 	bool execCommand(string fileName, vector<string> &taskList, vector<string> commandVector);
