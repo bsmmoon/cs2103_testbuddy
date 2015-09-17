@@ -13,7 +13,6 @@ using namespace std;
 
 const array<string, 5> LIST_OF_COMMANDS = { "add", "display", "delete", "clear", "exit" };
 const array<string, 2> LIST_OF_SUB_COMMANDS = { "on", "by" };
-const string DEFAULT_DB_NAME = "mytextfile.txt";
 const string WELCOME_MESSAGE = "\nWelcome to TextBuddy. %s is ready for use";
 
 class TextBuddyMain
@@ -34,7 +33,7 @@ private:
 	vector<string> TextBuddyMain::sortList(string fileName, vector<string> taskList);
 
 public:
-	int main(int argc, char* argv[]);
+	int main(string fileName);
 
 	// returns false if the command is 'exit' in order to indicate the termination
 	bool execCommand(string fileName, vector<string> &taskList, vector<string> commandVector);

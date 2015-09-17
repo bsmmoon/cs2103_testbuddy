@@ -5,7 +5,9 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextBuddy", "TextBuddy.vcxproj", "{B1E697E6-51CF-4124-B9D9-5DCC51EA59B3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TBUnitTest", "..\TBUnitTest\TBUnitTest.vcxproj", "{050CF9FF-5A4E-48F5-857B-00D92EC8D051}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextBuddyUnitTest", "..\TBUnitTest\TBUnitTest.vcxproj", "{050CF9FF-5A4E-48F5-857B-00D92EC8D051}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextBuddyUI", "..\TextBuddyUI\TextBuddyUI.vcxproj", "{E606F0D1-A561-451E-8F82-B6A996324DD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{050CF9FF-5A4E-48F5-857B-00D92EC8D051}.Debug|Win32.Build.0 = Debug|Win32
 		{050CF9FF-5A4E-48F5-857B-00D92EC8D051}.Release|Win32.ActiveCfg = Release|Win32
 		{050CF9FF-5A4E-48F5-857B-00D92EC8D051}.Release|Win32.Build.0 = Release|Win32
+		{E606F0D1-A561-451E-8F82-B6A996324DD4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E606F0D1-A561-451E-8F82-B6A996324DD4}.Debug|Win32.Build.0 = Debug|Win32
+		{E606F0D1-A561-451E-8F82-B6A996324DD4}.Release|Win32.ActiveCfg = Release|Win32
+		{E606F0D1-A561-451E-8F82-B6A996324DD4}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

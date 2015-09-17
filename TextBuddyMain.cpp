@@ -124,9 +124,7 @@ string test() {
 	return "TEST";
 }
 
-int main(int argc, char* argv[]) {
-	string fileName = TextBuddyLibrary::readFileName(argc, argv);
-	TextBuddyMain buddy(fileName);
+int TextBuddyMain::main(string fileName) {
 	vector<string> taskList = TextBuddyLibrary::readFile(fileName);
 
 	string commandLine;
@@ -136,7 +134,7 @@ int main(int argc, char* argv[]) {
 		cout << "\nCommand: ";
 		getline(cin, commandLine);
 		TextBuddyLibrary::readCommand(commandVector, commandLine);
-		if (!buddy.execCommand(fileName, taskList, commandVector)) {
+		if (!execCommand(fileName, taskList, commandVector)) {
 			break;
 		}
 	}

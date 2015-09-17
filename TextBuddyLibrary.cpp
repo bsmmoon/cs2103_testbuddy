@@ -65,6 +65,8 @@ string TextBuddyLibrary::readFileName(int argc, char* argv[]) {
 			cout << argv[i] << "\n";
 		}
 		fileName = argv[1];
+	} else {
+		fileName = DEFAULT_DB_NAME;
 	}
 
 	return fileName;
