@@ -11,8 +11,6 @@
 
 using namespace std;
 
-const array<string, 5> LIST_OF_COMMANDS = { "add", "display", "delete", "clear", "exit" };
-const array<string, 2> LIST_OF_SUB_COMMANDS = { "on", "by" };
 const string WELCOME_MESSAGE = "\nWelcome to TextBuddy. %s is ready for use";
 
 class TextBuddyMain

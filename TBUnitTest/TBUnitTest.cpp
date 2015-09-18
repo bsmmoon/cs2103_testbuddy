@@ -19,6 +19,13 @@ private:
 	string testFile = "test.txt";
 
 public:
+	void writeVectorToFile(ofstream &file, vector<string> list) {
+		for (int i = 0; i < list.size(); i++) {
+			file << list.at(i) << " ";
+		}
+		file << "\n";
+	}
+
 	void execUnitTest(vector<vector<string>> input) {
 		TextBuddyMain tm(testFile);
 		vector<string> initial = input.at(0);
@@ -43,31 +50,12 @@ public:
 			Assert::IsTrue(true);
 		} else {
 			ofstream file("UnitTestLog.txt", std::ios_base::app);
-			
 			file << "----------\n";
-			for (int i = 0; i < initial.size(); i++) {
-				file << initial.at(i) << " ";
-			}
-			file << "\n";
-
-			file << command;
-			file << "\n";
-
-			for (int i = 0; i < arguments.size(); i++) {
-				file << arguments.at(i) << " ";
-			}
-			file << "\n";
-
-			for (int i = 0; i < actual.size(); i++) {
-				file << actual.at(i) << " ";
-			}
-			file << "\n";
-
-			for (int i = 0; i < expected.size(); i++) {
-				file << expected.at(i) << " ";
-			}
-			file << "\n";
-
+			writeVectorToFile(file, initial);
+			file << command << "\n";
+			writeVectorToFile(file, arguments);
+			writeVectorToFile(file, actual);
+			writeVectorToFile(file, expected);
 			file << "----------\n";
 			file.close();
 
@@ -112,4 +100,4 @@ public:
 }
 
 // TEMPLATE:
-// tm.execCommand(testFile, actual, { command, argument.at(i) });
+// tm.execCommand( {initial}, {command}, {arguments}, {expected} );
