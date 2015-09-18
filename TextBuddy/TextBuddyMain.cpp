@@ -85,7 +85,7 @@ vector<string> TextBuddyMain::searchList(string fileName, vector<string> &taskLi
 }
 
 void TextBuddyMain::exitBuddy() {
-	printLine("Bye!\n");
+	printLine("Bye!");
 	exit(0);
 }
 
@@ -104,6 +104,7 @@ vector<string> TextBuddyMain::execCommand(string fileName, vector<string> &taskL
 		} else if (command.compare("display") == 0) {
 			printLine("Task List: ");
 			outputList = taskList;
+			TextBuddyLibrary::printList(outputList);
 		} else if (command.compare("delete") == 0) {
 			outputList = deleteTask(fileName, taskList, argument);
 		} else if (command.compare("clear") == 0) {
@@ -114,6 +115,7 @@ vector<string> TextBuddyMain::execCommand(string fileName, vector<string> &taskL
 			outputList = sortList(fileName, taskList);
 		} else if (command.compare("search") == 0) {
 			outputList = searchList(fileName, taskList, argument);
+			TextBuddyLibrary::printList(outputList);
 		} else {
 			string message = "Command \"" + command + "\" not found";
 			throw invalid_argument(message);
@@ -124,7 +126,6 @@ vector<string> TextBuddyMain::execCommand(string fileName, vector<string> &taskL
 		throw invalid_argument("Unhandled Exception");
 	}
 
-	TextBuddyLibrary::printList(outputList);
 	TextBuddyLibrary::writeFile(fileName, taskList);
 
 	return outputList;
@@ -137,13 +138,13 @@ int TextBuddyMain::run(string fileName) {
 	vector<string> commandVector;
 
 	while (true) {
-		printLine("\nCommand: ");
+		cout << "Command: ";
 		getline(cin, commandLine);
 		TextBuddyLibrary::readCommand(commandVector, commandLine);
 		try {
 			execCommand(fileName, taskList, commandVector);
 		} catch (invalid_argument message) {
-			printLine(string(message.what()) + "\n");
+			printLine(string(message.what()));
 		}
 	}
 

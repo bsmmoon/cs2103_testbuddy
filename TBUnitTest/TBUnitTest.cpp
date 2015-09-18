@@ -69,6 +69,9 @@ public:
 	TEST_METHOD_CLEANUP(CLEAN) {
 	}
 
+	// TEMPLATE:
+	// tm.execCommand( {initial}, {command}, {arguments}, {expected} );
+
 	TEST_METHOD(addTaskTest) {
 		execUnitTest({ {}, { "add" }, {}, { "'add' command requires argument" } });
 		execUnitTest({ {}, { "add" }, { "5", "4", "3", "2", "1" }, { "5", "4", "3", "2", "1" } });
@@ -99,5 +102,3 @@ public:
 	};
 }
 
-// TEMPLATE:
-// tm.execCommand( {initial}, {command}, {arguments}, {expected} );
