@@ -13,8 +13,7 @@ using namespace std;
 
 const string WELCOME_MESSAGE = "\nWelcome to TextBuddy. %s is ready for use";
 
-class TextBuddyMain
-{
+class TextBuddyMain {
 private:
 	// print the input string with line breaker
 	// can be used for a specific printing behaviour later

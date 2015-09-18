@@ -12,8 +12,7 @@ using namespace std;
 
 const string DEFAULT_DB_NAME = "mytextfile.txt";
 
-class TextBuddyLibrary
-{
+class TextBuddyLibrary {
 public:
 	TextBuddyLibrary();
 	~TextBuddyLibrary();

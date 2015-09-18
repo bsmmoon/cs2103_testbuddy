@@ -12,8 +12,7 @@ using namespace std;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 
-namespace TBUnitTest
-{
+namespace TBUnitTest {
 	TEST_CLASS(UnitTest) {
 private:
 	string testFile = "test.txt";
